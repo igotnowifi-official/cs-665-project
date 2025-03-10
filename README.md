@@ -1,30 +1,155 @@
 
 | CS-665       | Software Design & Patterns |
 |--------------|----------------------------|
-| Name         | FIRST_NAME LAST_NAME       |
-| Date         | MM/DD/YYYY                 |
-| Course       | Fall / Spring / Summer     |
-| Assignment # |                            |
+| Name         | Natasya Liew U15913137     |
+| Date         | March 10, 2025             |
+| Course       | Spring                     |
+| Assignment # | Final Project              |
 
 # Assignment Overview
-Please add a paragraph or two overviewing the objectives of the assignment.
+The objective of this assignment was to design and implement an **RPG Character Creation System** using **object-oriented programming principles** and **design patterns** to ensure **modularity, scalability, and maintainability**. The system allows users to create characters by selecting a **race, job, and rolling stats** using different dice strategies. Additionally, it supports **custom race and job creation**, **command-based undo/redo functionality**, and **observer-based logging**.
+
+The assignment focused on utilizing **design patterns** to enhance flexibility. We implemented the **Factory Pattern** for race and job creation, the **Builder Pattern** for character modification, the **Facade Pattern** for simplifying interactions, the **Strategy Pattern** for rolling dice, the **Observer Pattern** for event logging, and the **Command Pattern** for job and race modifications.
+
 
 # GitHub Repository Link:
-https://github.com/{YOUR_USERNAME}/cs-665-assignment-{ASSIGNMENT_NUMBER}
+[GitHub Link](https://github.com/igotnowifi-official/cs-665-project)
+
+# **UML Class Diagram**
+
+![DnD Game Class Diagram](./images/umlclassdiagram_project.png)
+
+## **📌 Class Object Details & Relationships**
+The UML diagram provides a high-level view of the system's **class structure**, depicting **relationships and interactions** between components.
+
+### **1️⃣ Core Classes**
+#### **GameCharacter (Abstract)**
+- Represents a character in the game.
+- **Attributes**: `name`, `race`, `job`, `stats`.
+- **Methods**: `getRace()`, `getJob()`, `setRace()`, `setJob()`, `rollStats()`, `displayCharacter()`.
+- **Relationships**:
+  - Associated with **Race** (`has a` relationship).
+  - Associated with **Job** (`has a` relationship).
+  - Aggregates **Stats** (`has a` relationship).
+
+#### **DefaultCharacter (Concrete Class)**
+- A concrete implementation of `GameCharacter`.
+- **Relationships**:
+  - Extends **GameCharacter** (`is a` relationship).
+
+### **2️⃣ Job System**
+#### **Job (Abstract)**
+- Represents a **character job/class**.
+- **Attributes**: `jobName`, `attackPower`, `defense`.
+- **Methods**: `getJobName()`, `getAttackPower()`, `getDefense()`, `specialAbility()`.
+- **Relationships**:
+  - Extended by **predefined job classes** (`is a` relationship).
+
+#### **Predefined Job Classes**
+- **Fighter**, **Wizard**, **Rogue**, **Cleric** extend `Job`.
+- Each implements **`specialAbility()`**.
+
+#### **CustomJob**
+- Allows users to **define new job classes dynamically**.
+- **Extends** `Job` and inherits its properties.
+
+#### **JobFactory**
+- Implements the **Factory Pattern** to **create predefined and custom jobs**.
+- **Methods**: `createJob()`, `registerCustomJob()`.
+- **Relationships**:
+  - Creates instances of **Job** (`creates` relationship).
+
+### **3️⃣ Race System**
+#### **Race (Abstract)**
+- Represents a **character's race**.
+- **Attributes**: `raceName`, `strengthBonus`, `dexterityBonus`, `intelligenceBonus`.
+- **Methods**: `getRaceName()`, `getStrengthBonus()`, `getDexterityBonus()`, `getIntelligenceBonus()`.
+- **Relationships**:
+  - Extended by **predefined race classes** (`is a` relationship).
+
+#### **Predefined Race Classes**
+- **Human**, **Elf**, **Orc**, **Dwarf** extend `Race`.
+
+#### **CustomRace**
+- Allows users to **define new race types** dynamically.
+- **Extends** `Race` and inherits its properties.
+
+#### **RaceFactory**
+- Implements the **Factory Pattern** to **create predefined and custom races**.
+- **Methods**: `createRace()`, `registerCustomRace()`.
+- **Relationships**:
+  - Creates instances of **Race** (`creates` relationship).
+
+### **4️⃣ Additional Components**
+#### **CharacterBuilder**
+- Implements the **Builder Pattern** for constructing characters.
+- **Methods**: `setRace()`, `setJob()`, `rollStats()`, `build()`.
+- **Relationships**:
+  - Used by **CharacterFacade** (`used by` relationship).
+
+#### **CharacterFacade**
+- Implements the **Facade Pattern** to simplify character creation.
+- **Methods**: `setRace()`, `setJob()`, `rollStats()`, `buildCharacter()`.
+- **Relationships**:
+  - Calls **CharacterBuilder** (`uses` relationship).
+  - Calls **SetJobCommand**, **SetRaceCommand** (`uses` relationship).
+
+#### **Stats**
+- Stores and manages **Strength, Dexterity, Intelligence**.
+- **Methods**: `applyBonuses()`, `rollStats()`, `getStrength()`, `getDexterity()`, `getIntelligence()`.
+- **Relationships**:
+  - Associated with **GameCharacter** (`has a` relationship).
+
+#### **Command Pattern (Undo/Redo)**
+- **SetJobCommand**, **SetRaceCommand** implement **Command**.
+- **Methods**: `execute()`, `undo()`.
+- **Relationships**:
+  - Used by **CharacterFacade** (`used by` relationship).
+
+#### **Observer Pattern**
+- **Logger** implements **Observer**.
+- **Methods**: `update()`.
+- **Relationships**:
+  - Observes **CharacterFacade** (`observes` relationship).
+
+#### **Strategy Pattern**
+- **DiceStrategy** implemented by **D6, D20**.
+- **Methods**: `roll()`.
+- **Relationships**:
+  - Used by **Stats** to roll character attributes (`uses` relationship).
+
 
 # Implementation Description 
 
+## **1️⃣ Flexibility**
+- The system is **highly flexible**, allowing **new jobs and races** to be added **without modifying existing code**.  
+- This is achieved using **factories (`JobFactory`, `RaceFactory`)**, which register **new jobs and races dynamically**.  
+- The **command pattern** (`SetJobCommand`, `SetRaceCommand`) allows **undo/redo functionality**, making it **adaptable for future enhancements**.
 
-For each assignment, please answer the following:
+## **2️⃣ Simplicity & Understandability**
+- The implementation follows **clear object-oriented design principles**, ensuring that **each class has a single responsibility**.  
+- By using **modularized classes**, developers can easily **read, maintain, and extend** the codebase.  
+- **Descriptive class and method names** improve **code readability**.
 
-- Explain the level of flexibility in your implementation, including how new object types can
-be easily added or removed in the future.
-- Discuss the simplicity and understandability of your implementation, ensuring that it is
-easy for others to read and maintain.
-- Describe how you have avoided duplicated code and why it is important.
-- If applicable, mention any design patterns you have used and explain why they were
-chosen.
+## **3️⃣ Avoiding Code Duplication**
+- **Code duplication was minimized** by implementing:
+  - **Factory Methods** → Centralized job and race creation logic.
+  - **Abstract Base Classes (`GameCharacter`, `Job`, `Race`)** → Shared behaviors across multiple subclasses.
+  - **Builder Pattern** → Simplifies character modification without redundant constructors.
+  - **Strategy Pattern (`DiceStrategy`)** → Enables different dice implementations (`D6`, `D20`) without code duplication.
+- Avoiding duplicated code improves **maintainability**, **reduces bugs**, and **enhances efficiency**.
 
+## **4️⃣ Design Patterns Used**
+| **Design Pattern** | **Purpose** |
+|--------------------|-------------|
+| **Factory Pattern** | Used in `JobFactory` and `RaceFactory` to create new jobs and races dynamically. |
+| **Builder Pattern** | Implemented in `CharacterBuilder` to modify character attributes without complex constructors. |
+| **Facade Pattern** | `CharacterFacade` simplifies interactions, providing a single interface for character creation. |
+| **Strategy Pattern** | Used for dice rolling (`DiceStrategy`, `D6`, `D20`), making stat generation modular. |
+| **Observer Pattern** | Implemented in `Logger`, which logs all character modifications and assignments. |
+| **Command Pattern** | Used in `SetJobCommand` and `SetRaceCommand`, allowing undo/redo of job and race selections. |
+
+By implementing **these patterns**, the system remains **scalable, maintainable, and easily extensible** for future features.
 
 # Maven Commands
 
@@ -47,7 +172,17 @@ Type on the command line:
 mvn clean compile
 ```
 
+![Compile Screenshot](./images/mvncompile_project.png)
 
+## Run Program
+
+Type on the command line:
+
+```bash
+mvn exec:java -Dexec.mainClass="edu.bu.met.cs665.Main"
+```
+
+![Run Program Screenshot](./images/runprogram_project.png)
 
 ## JUnit Tests
 JUnit is a popular testing framework for Java. JUnit tests are automated tests that are written to verify that the behavior of a piece of code is as expected.
@@ -65,6 +200,7 @@ To run, use the following command:
 mvn clean test
 ```
 
+![JUnit Test Success Screenshot](./images/junittest_project.png)
 
 ## Spotbugs 
 
@@ -81,6 +217,8 @@ Use the following command:
 ```bash
 mvn spotbugs:gui 
 ```
+
+![Spotbug Screenshot](./images/spotbug_project.png)
 
 For more info see 
 https://spotbugs.readthedocs.io/en/latest/maven.html
@@ -103,6 +241,8 @@ The following command will generate a report in HTML format that you can open in
 ```bash
 mvn checkstyle:checkstyle
 ```
+
+![Checkstyle Screenshot](./images/checkstyle_project.png)
 
 The HTML page will be found at the following location:
 `target/site/checkstyle.html`
