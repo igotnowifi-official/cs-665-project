@@ -17,10 +17,10 @@ import static org.junit.Assert.*;
  */
 public class CharacterFacadeTest {
   private CharacterFacade facade;
- 
+
   @Before
   public void setUp() {
-    facade = new CharacterFacade("Hero", "Human");
+    facade = CharacterFacade.fromNew("Hero", "Human");
   }
  
   /**

@@ -12,6 +12,14 @@ package edu.bu.met.cs665.race;
  * Represents the Dwarf race with increased defense and endurance.
  */
 public class Dwarf extends Race {
+
+  /**
+   * Type indicator for Gson deserialization.
+   * Required by RuntimeTypeAdapterFactory to identify subclass type.
+   */
+  @SuppressWarnings("unused")
+  private final String type = "dwarf";
+
   /**
    * Constructor for Dwarf.
    */

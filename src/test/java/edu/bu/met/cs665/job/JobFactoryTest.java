@@ -15,6 +15,7 @@ import static org.junit.Assert.*;
  * Unit test for JobFactory.
  */
 public class JobFactoryTest {
+ 
   /**
    * Tests if a predefined job is created correctly.
    */
@@ -25,13 +26,14 @@ public class JobFactoryTest {
   }
  
   /**
-   * Tests if a custom job can be registered and created.
+   * Tests loading a custom job from file (assets/jobs/goddess.json).
    */
   @Test
-  public void testCreateCustomJob() {
-    JobFactory.registerCustomJob("Assassin", 20, 5, "Stealth Kill");
-    Job job = JobFactory.createJob("Assassin");
-    assertEquals("Assassin", job.getJobName());
+  public void testLoadCustomJobFromFile() {
+    Job job = JobFactory.createJob("goddess");
+    assertNotNull(job);
+    assertEquals("goddess", job.getJobName().toLowerCase());
+    assertTrue(job.getAttackPower() > 0);
+    assertTrue(job.getDefense() > 0);
   }
 }
- 

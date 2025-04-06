@@ -7,10 +7,24 @@
 | Assignment # | Final Project              |
 
 # Assignment Overview
-The objective of this assignment was to design and implement an **RPG Character Creation System** using **object-oriented programming principles** and **design patterns** to ensure **modularity, scalability, and maintainability**. The system allows users to create characters by selecting a **race, job, and rolling stats** using different dice strategies. Additionally, it supports **custom race and job creation**, **command-based undo/redo functionality**, and **observer-based logging**.
+This project implements an **RPG Character Creation System** using **object-oriented design** and multiple **software design patterns** to maximize **flexibility**, **maintainability**, and **scalability**. The system allows users to:
 
-The assignment focused on utilizing **design patterns** to enhance flexibility. We implemented the **Factory Pattern** for race and job creation, the **Builder Pattern** for character modification, the **Facade Pattern** for simplifying interactions, the **Strategy Pattern** for rolling dice, the **Observer Pattern** for event logging, and the **Command Pattern** for job and race modifications.
+- Create characters by choosing a race and job
+- Roll stats using dice strategies
+- Define and reuse **custom races and jobs**
+- **Persist character data** to individual JSON files
+- Support **undoable race/job commands**
+- Log all actions automatically
 
+## 🎯 Key Features & Practices
+- Object-Oriented Design
+- SOLID Principles
+- Test-Driven Development with JUnit
+- Modular File I/O with Gson & Adapter Factories
+- Reusable JSON serialization across components
+- Code quality tools: **Checkstyle**, **SpotBugs**
+- Clean architecture and documentation
+- Uses Maven for build, dependency, and test management
 
 # GitHub Repository Link:
 [GitHub Link](https://github.com/igotnowifi-official/cs-665-project)
@@ -25,129 +39,103 @@ The UML diagram provides a high-level view of the system's **class structure**, 
 ### **1️⃣ Core Classes**
 #### **GameCharacter (Abstract)**
 - Represents a character in the game.
-- **Attributes**: `name`, `race`, `job`, `stats`.
-- **Methods**: `getRace()`, `getJob()`, `setRace()`, `setJob()`, `rollStats()`, `displayCharacter()`.
+- **Attributes**: `name`, `race`, `job`, `stats`
+- **Methods**: `getRace()`, `getJob()`, `setRace()`, `setJob()`, `rollStats()`, `displayCharacter()`
 - **Relationships**:
-  - Associated with **Race** (`has a` relationship).
-  - Associated with **Job** (`has a` relationship).
-  - Aggregates **Stats** (`has a` relationship).
+  - Aggregates **Stats**
+  - Has-a **Race**
+  - Has-a **Job**
 
 #### **DefaultCharacter (Concrete Class)**
-- A concrete implementation of `GameCharacter`.
+- Concrete implementation of `GameCharacter`.
 - **Relationships**:
-  - Extends **GameCharacter** (`is a` relationship).
+  - `is-a` **GameCharacter**
+
+---
 
 ### **2️⃣ Job System**
 #### **Job (Abstract)**
-- Represents a **character job/class**.
-- **Attributes**: `jobName`, `attackPower`, `defense`.
-- **Methods**: `getJobName()`, `getAttackPower()`, `getDefense()`, `specialAbility()`.
+- Base class for all jobs.
+- **Attributes**: `jobName`, `attackPower`, `defense`
+- **Methods**: `getJobName()`, `getAttackPower()`, `getDefense()`, `specialAbility()`
 - **Relationships**:
-  - Extended by **predefined job classes** (`is a` relationship).
+  - `is-a` superclass for predefined and custom jobs
 
-#### **Predefined Job Classes**
-- **Fighter**, **Wizard**, **Rogue**, **Cleric** extend `Job`.
-- Each implements **`specialAbility()`**.
+#### **Predefined Jobs**
+- **Fighter**, **Wizard**, **Rogue**, **Cleric**
+- Each overrides `specialAbility()`
 
 #### **CustomJob**
-- Allows users to **define new job classes dynamically**.
-- **Extends** `Job` and inherits its properties.
+- User-defined jobs with unique abilities
+- **Relationships**: `extends` Job
 
 #### **JobFactory**
-- Implements the **Factory Pattern** to **create predefined and custom jobs**.
-- **Methods**: `createJob()`, `registerCustomJob()`.
-- **Relationships**:
-  - Creates instances of **Job** (`creates` relationship).
+- Uses **Factory Pattern**
+- **Methods**: `createJob()`, `registerCustomJob()`, `registerCustomJobWithDice()`
+- **Relationships**: creates instances of `Job` and handles file I/O via `JobFileIO`
+
+---
 
 ### **3️⃣ Race System**
 #### **Race (Abstract)**
-- Represents a **character's race**.
-- **Attributes**: `raceName`, `strengthBonus`, `dexterityBonus`, `intelligenceBonus`.
-- **Methods**: `getRaceName()`, `getStrengthBonus()`, `getDexterityBonus()`, `getIntelligenceBonus()`.
+- Base class for all races.
+- **Attributes**: `raceName`, `strengthBonus`, `dexterityBonus`, `intelligenceBonus`
+- **Methods**: `getRaceName()`, `getStrengthBonus()`, `getDexterityBonus()`, `getIntelligenceBonus()`
 - **Relationships**:
-  - Extended by **predefined race classes** (`is a` relationship).
+  - `is-a` superclass for predefined and custom races
 
-#### **Predefined Race Classes**
-- **Human**, **Elf**, **Orc**, **Dwarf** extend `Race`.
+#### **Predefined Races**
+- **Human**, **Elf**, **Orc**, **Dwarf**
 
 #### **CustomRace**
-- Allows users to **define new race types** dynamically.
-- **Extends** `Race` and inherits its properties.
+- User-defined race
+- **Relationships**: `extends` Race
 
 #### **RaceFactory**
-- Implements the **Factory Pattern** to **create predefined and custom races**.
-- **Methods**: `createRace()`, `registerCustomRace()`.
-- **Relationships**:
-  - Creates instances of **Race** (`creates` relationship).
+- Uses **Factory Pattern**
+- **Methods**: `createRace()`, `registerCustomRace()`, `registerCustomRaceWithDice()`
+- **Relationships**: creates instances of `Race` and handles file I/O via `RaceFileIO`
+
+---
 
 ### **4️⃣ Additional Components**
 #### **CharacterBuilder**
-- Implements the **Builder Pattern** for constructing characters.
-- **Methods**: `setRace()`, `setJob()`, `rollStats()`, `build()`.
-- **Relationships**:
-  - Used by **CharacterFacade** (`used by` relationship).
+- Implements **Builder Pattern**
+- **Methods**: `setRace()`, `setJob()`, `rollStats()`, `build()`
+- **Relationships**: used by `CharacterFacade`
 
 #### **CharacterFacade**
-- Implements the **Facade Pattern** to simplify character creation.
-- **Methods**: `setRace()`, `setJob()`, `rollStats()`, `buildCharacter()`.
+- Implements **Facade Pattern**
+- Simplifies creation logic
+- **Methods**: `fromNew()`, `setJob()`, `rollStats()`, `buildCharacter()`
 - **Relationships**:
-  - Calls **CharacterBuilder** (`uses` relationship).
-  - Calls **SetJobCommand**, **SetRaceCommand** (`uses` relationship).
+  - Uses `CharacterBuilder`
+  - Applies `Command Pattern` (`SetJobCommand`, `SetRaceCommand`)
+  - Notifies via `Logger`
+
+#### **CharacterCache**
+- Implements **Cache Pattern**
+- Caches characters in memory and saves them using `CharacterCacheIO`
 
 #### **Stats**
-- Stores and manages **Strength, Dexterity, Intelligence**.
-- **Methods**: `applyBonuses()`, `rollStats()`, `getStrength()`, `getDexterity()`, `getIntelligence()`.
-- **Relationships**:
-  - Associated with **GameCharacter** (`has a` relationship).
+- Represents stat container
+- **Attributes**: `strength`, `dexterity`, `intelligence`
+- **Methods**: `rollStats()`, `rollStatsWithBonuses()`, `displayStats()`
 
-#### **Command Pattern (Undo/Redo)**
-- **SetJobCommand**, **SetRaceCommand** implement **Command**.
-- **Methods**: `execute()`, `undo()`.
-- **Relationships**:
-  - Used by **CharacterFacade** (`used by` relationship).
+---
 
-#### **Observer Pattern**
-- **Logger** implements **Observer**.
-- **Methods**: `update()`.
-- **Relationships**:
-  - Observes **CharacterFacade** (`observes` relationship).
+### **5️⃣ Design Patterns Overview**
+| **Pattern**      | **Applied To**                                      | **Purpose**                                                       |
+|------------------|-----------------------------------------------------|-------------------------------------------------------------------|
+| Factory          | `RaceFactory`, `JobFactory`                         | Centralized creation logic for Race and Job subclasses            |
+| Builder          | `CharacterBuilder`                                  | Allows flexible, incremental construction of characters           |
+| Facade           | `CharacterFacade`                                   | Simplifies character creation process                             |
+| Strategy         | `DiceStrategy`, `D6`, `D20`                          | Encapsulates rolling logic for stat generation                    |
+| Command          | `SetJobCommand`, `SetRaceCommand`                   | Enables undoable changes to character state                       |
+| Observer         | `Logger`                                            | Logs character updates                                            |
+| Cache            | `CharacterCache`, `CharacterCacheIO`                | Caches and persists GameCharacter instances efficiently           |
+| Polymorphic JSON | `RuntimeTypeAdapterFactory`, `TypeAdapterUtil`      | Handles abstract serialization of GameCharacter, Race, and Job    |
 
-#### **Strategy Pattern**
-- **DiceStrategy** implemented by **D6, D20**.
-- **Methods**: `roll()`.
-- **Relationships**:
-  - Used by **Stats** to roll character attributes (`uses` relationship).
-
-
-# Implementation Description 
-
-## **1️⃣ Flexibility**
-- The system is **highly flexible**, allowing **new jobs and races** to be added **without modifying existing code**.  
-- This is achieved using **factories (`JobFactory`, `RaceFactory`)**, which register **new jobs and races dynamically**.  
-- The **command pattern** (`SetJobCommand`, `SetRaceCommand`) allows **undo/redo functionality**, making it **adaptable for future enhancements**.
-
-## **2️⃣ Simplicity & Understandability**
-- The implementation follows **clear object-oriented design principles**, ensuring that **each class has a single responsibility**.  
-- By using **modularized classes**, developers can easily **read, maintain, and extend** the codebase.  
-- **Descriptive class and method names** improve **code readability**.
-
-## **3️⃣ Avoiding Code Duplication**
-- **Code duplication was minimized** by implementing:
-  - **Factory Methods** → Centralized job and race creation logic.
-  - **Abstract Base Classes (`GameCharacter`, `Job`, `Race`)** → Shared behaviors across multiple subclasses.
-  - **Builder Pattern** → Simplifies character modification without redundant constructors.
-  - **Strategy Pattern (`DiceStrategy`)** → Enables different dice implementations (`D6`, `D20`) without code duplication.
-- Avoiding duplicated code improves **maintainability**, **reduces bugs**, and **enhances efficiency**.
-
-## **4️⃣ Design Patterns Used**
-| **Design Pattern** | **Purpose** |
-|--------------------|-------------|
-| **Factory Pattern** | Used in `JobFactory` and `RaceFactory` to create new jobs and races dynamically. |
-| **Builder Pattern** | Implemented in `CharacterBuilder` to modify character attributes without complex constructors. |
-| **Facade Pattern** | `CharacterFacade` simplifies interactions, providing a single interface for character creation. |
-| **Strategy Pattern** | Used for dice rolling (`DiceStrategy`, `D6`, `D20`), making stat generation modular. |
-| **Observer Pattern** | Implemented in `Logger`, which logs all character modifications and assignments. |
-| **Command Pattern** | Used in `SetJobCommand` and `SetRaceCommand`, allowing undo/redo of job and race selections. |
 
 By implementing **these patterns**, the system remains **scalable, maintainable, and easily extensible** for future features.
 
@@ -194,6 +182,13 @@ JUnit tests are executed automatically and the results of the tests are reported
 The use of JUnit tests is an important part of Test-Driven Development (TDD), where tests are written before the code they are testing is written. This helps to ensure that the code is written in a way that is easily testable and that all required functionality is covered by tests.
 
 JUnit tests can be run as part of a continuous integration pipeline, where tests are automatically run every time changes are made to the code. This helps to catch any issues as soon as they are introduced, reducing the need for manual testing and making it easier to ensure that the code is always in a releasable state.
+
+The project uses **JUnit 4.13.1** with **100% test coverage** on:
+
+- `CharacterBuilder`, `CharacterFacade`, `DefaultCharacter`, `Stats`, `GameCharacter`
+- `SetJobCommand`, `SetRaceCommand`
+- `JobFactory`, `RaceFactory`, `JobFileIO`, `RaceFileIO`
+- Custom characters (e.g., `goddess`, `titans`) loaded from actual JSON files
 
 To run, use the following command:
 ```bash
@@ -247,6 +242,32 @@ mvn checkstyle:checkstyle
 The HTML page will be found at the following location:
 `target/site/checkstyle.html`
 
+## 📦 JSON Sample (Character)
 
+```json
+{
+  "type": "default",
+  "name": "natasya",
+  "race": {
+    "type": "custom",
+    "raceName": "titans",
+    "strengthBonus": 999999,
+    "dexterityBonus": 999999,
+    "intelligenceBonus": 999999
+  },
+  "job": {
+    "type": "custom",
+    "jobName": "goddess",
+    "attackPower": 9999999,
+    "defense": 9999999,
+    "ability": "Divine Judgment"
+  },
+  "stats": {
+    "strength": 9999999,
+    "dexterity": 9999999,
+    "intelligence": 9999999
+  }
+}
+```
 
 

@@ -8,8 +8,8 @@
 
 package edu.bu.met.cs665.character;
 
-import edu.bu.met.cs665.job.Fighter;
-import edu.bu.met.cs665.race.Human;
+import edu.bu.met.cs665.job.JobFactory;
+import edu.bu.met.cs665.race.RaceFactory;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -22,7 +22,7 @@ public class GameCharacterTest {
  
   @Before
   public void setUp() {
-    character = new DefaultCharacter("Hero", new Fighter(), new Human());
+    character = new DefaultCharacter("Hero", JobFactory.createJob("fighter"), RaceFactory.createRace("human"));
   }
  
   /**

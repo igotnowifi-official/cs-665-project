@@ -10,11 +10,12 @@ package edu.bu.met.cs665.character;
 
 import edu.bu.met.cs665.command.SetJobCommand;
 import edu.bu.met.cs665.dice.DiceStrategy;
+import edu.bu.met.cs665.job.Job;
 import edu.bu.met.cs665.job.JobFactory;
 import edu.bu.met.cs665.observer.Logger;
 import edu.bu.met.cs665.race.Race;
 import edu.bu.met.cs665.race.RaceFactory;
-
+ 
 /**
  * Facade pattern to simplify the character creation process.
  */
@@ -22,21 +23,26 @@ public class CharacterFacade {
   private CharacterBuilder builder;
   private Logger logger = new Logger();
   private SetJobCommand setJobCommand;
+
+  /**
+   * Constructor to wrap an existing character.
+   * @param character An existing GameCharacter (e.g., from cache).
+   */
+  public CharacterFacade(GameCharacter character) {
+    this.builder = new CharacterBuilder(character);
+  }
  
   /**
-   * Constructor for CharacterFacade.
-   * @param characterName The name of the character.
-   * @param raceName The race of the character.
+   * Creates a new CharacterFacade with default job and selected race.
+   * @param name The name of the character.
+   * @param raceName The race name.
+   * @return A new CharacterFacade instance.
    */
-  public CharacterFacade(String characterName, String raceName) {
+  public static CharacterFacade fromNew(String name, String raceName) {
     Race race = RaceFactory.createRace(raceName);
-    this.builder = new CharacterBuilder(
-      new DefaultCharacter(
-        characterName,
-        JobFactory.createJob("fighter"),
-        race
-      )
-);
+    Job defaultJob = JobFactory.createJob("fighter");
+    GameCharacter character = new DefaultCharacter(name, defaultJob, race);
+    return new CharacterFacade(character);
   }
  
   /**
@@ -50,12 +56,14 @@ public class CharacterFacade {
   }
  
   /**
-   * Rolls stats for the character using a dice strategy.
-   * @param dice The dice strategy.
+   * Rolls stats using separate base and bonus dice strategies.
+   * @param baseDice Dice for core stat values (e.g., D20)
+   * @param bonusDice Dice for bonus modifiers (e.g., D6)
    */
-  public void rollStats(DiceStrategy dice) {
-    builder.rollStats(dice);
-    logger.update("Stats rolled using: " + dice.getClass().getSimpleName());
+  public void rollStats(DiceStrategy baseDice, DiceStrategy bonusDice) {
+    GameCharacter character = builder.build();
+    character.rollStatsWithBonuses(baseDice, bonusDice);
+    logger.update("Stats rolled with D20 + D6 bonus from race/job");
   }
  
   /**

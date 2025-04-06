@@ -12,6 +12,14 @@ package edu.bu.met.cs665.job;
  * Represents the Wizard job class with unique abilities.
  */
 public class Wizard extends Job {
+
+  /**
+   * Type indicator for Gson deserialization.
+   * Required by RuntimeTypeAdapterFactory to identify subclass type.
+   */
+  @SuppressWarnings("unused")
+  private final String type = "wizard";
+
   /**
    * Constructor for Wizard.
    */

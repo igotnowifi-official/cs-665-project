@@ -9,6 +9,14 @@
 package edu.bu.met.cs665.job;
 
 public class Fighter extends Job {
+
+  /**
+   * Type indicator for Gson deserialization.
+   * Required by RuntimeTypeAdapterFactory to identify subclass type.
+   */
+  @SuppressWarnings("unused")
+  private final String type = "fighter";
+
   /**
    * Constructor for Fighter.
    */

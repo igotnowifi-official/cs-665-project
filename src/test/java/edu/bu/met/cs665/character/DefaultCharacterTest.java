@@ -8,53 +8,44 @@
 
 package edu.bu.met.cs665.character;
 
-import edu.bu.met.cs665.job.Job;
-import edu.bu.met.cs665.race.Race;
+import edu.bu.met.cs665.job.JobFactory;
+import edu.bu.met.cs665.race.RaceFactory;
 import org.junit.Before;
 import org.junit.Test;
+ 
 import static org.junit.Assert.*;
  
 /**
  * Unit test for DefaultCharacter class.
  */
 public class DefaultCharacterTest {
-  private DefaultCharacter defaultCharacter;
+ 
+  private DefaultCharacter character;
  
   @Before
   public void setUp() {
-    defaultCharacter = new DefaultCharacter();
+    character = new DefaultCharacter("natasya",
+        JobFactory.createJob("goddess"),
+        RaceFactory.createRace("titans"));
   }
  
-  /**
-   * Tests if DefaultCharacter is initialized with correct default attributes.
-   */
   @Test
-  public void testDefaultCharacterInitialization() {
-    assertNotNull(defaultCharacter);
-    assertEquals("Natasya", defaultCharacter.getName());
-    assertEquals("Goddess", defaultCharacter.getJob().getJobName());
-    assertEquals("Titans", defaultCharacter.getRace().getRaceName());
+  public void testCharacterData() {
+    assertEquals("natasya", character.getName().toLowerCase());
+    assertEquals("goddess", character.getJob().getJobName().toLowerCase());
+    assertEquals("titans", character.getRace().getRaceName().toLowerCase());
   }
  
-  /**
-   * Tests if DefaultCharacter's job has the correct attack power and defense values.
-   */
   @Test
-  public void testDefaultCharacterJobAttributes() {
-    Job job = defaultCharacter.getJob();
-    assertEquals(999, job.getAttackPower());
-    assertEquals(999, job.getDefense());
+  public void testCharacterJobStats() {
+    assertTrue(character.getJob().getAttackPower() > 0);
+    assertTrue(character.getJob().getDefense() > 0);
   }
  
-  /**
-   * Tests if DefaultCharacter's race provides the correct stat bonuses.
-   */
   @Test
-  public void testDefaultCharacterRaceBonuses() {
-    Race race = defaultCharacter.getRace();
-    assertEquals(100, race.getStrengthBonus());
-    assertEquals(100, race.getDexterityBonus());
-    assertEquals(100, race.getIntelligenceBonus());
+  public void testCharacterRaceBonuses() {
+    assertTrue(character.getRace().getStrengthBonus() > 0);
+    assertTrue(character.getRace().getDexterityBonus() > 0);
+    assertTrue(character.getRace().getIntelligenceBonus() > 0);
   }
 }
- 

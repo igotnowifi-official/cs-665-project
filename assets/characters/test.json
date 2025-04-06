@@ -1,0 +1,23 @@
+{
+  "type": "default",
+  "name": "test",
+  "race": {
+    "type": "elf",
+    "raceName": "Elf",
+    "strengthBonus": 0,
+    "dexterityBonus": 2,
+    "intelligenceBonus": 2
+  },
+  "job": {
+    "type": "custom",
+    "ability": "Hunt targets with agility and dexterity",
+    "jobName": "hunter",
+    "attackPower": 9,
+    "defense": 5
+  },
+  "stats": {
+    "strength": 49,
+    "dexterity": 13,
+    "intelligence": 14
+  }
+}

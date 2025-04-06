@@ -13,7 +13,7 @@ import edu.bu.met.cs665.job.Job;
 import edu.bu.met.cs665.race.Race;
  
 /**
- * Represents an RPG character with customizable race, job, and stats.
+ * Abstract class representing a game character composed of a race, job, and stats.
  */
 public abstract class GameCharacter {
   protected String name;
@@ -56,11 +56,6 @@ public abstract class GameCharacter {
    */
   public void setRace(Race race) {
     this.race = race;
-    stats.applyBonuses(
-        race.getStrengthBonus(),
-        race.getDexterityBonus(),
-        race.getIntelligenceBonus()
-    );
   }
  
   /**
@@ -86,7 +81,16 @@ public abstract class GameCharacter {
   public void rollStats(DiceStrategy dice) {
     stats.rollStats(dice);
   }
- 
+
+  /**
+   * Rolls base stats and applies race/job bonuses using separate dice strategies.
+   * @param baseDice Dice for core stat values (e.g., D20)
+   * @param bonusDice Dice for bonus modifiers (e.g., D6)
+   */
+  public void rollStatsWithBonuses(DiceStrategy baseDice, DiceStrategy bonusDice) {
+    stats.rollStatsWithBonuses(baseDice, bonusDice, race, job);
+  }
+
   /**
    * Displays the character's details.
    */

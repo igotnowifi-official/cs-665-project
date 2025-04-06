@@ -12,6 +12,14 @@ package edu.bu.met.cs665.job;
  * Represents the Rogue job class with stealth abilities.
  */
 public class Rogue extends Job {
+
+  /**
+   * Type indicator for Gson deserialization.
+   * Required by RuntimeTypeAdapterFactory to identify subclass type.
+   */
+  @SuppressWarnings("unused")
+  private final String type = "rogue";
+
   /**
    * Constructor for Rogue.
    */

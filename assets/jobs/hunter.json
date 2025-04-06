@@ -1,0 +1,7 @@
+{
+  "type": "custom",
+  "ability": "Hunt targets with agility and dexterity",
+  "jobName": "hunter",
+  "attackPower": 9,
+  "defense": 5
+}

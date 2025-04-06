@@ -15,6 +15,7 @@ import static org.junit.Assert.*;
  * Unit test for RaceFactory.
  */
 public class RaceFactoryTest {
+
   /**
    * Tests creating a predefined race.
    */
@@ -23,15 +24,17 @@ public class RaceFactoryTest {
     Race race = RaceFactory.createRace("elf");
     assertEquals("Elf", race.getRaceName());
   }
- 
+
   /**
-   * Tests registering and creating a custom race.
+   * Tests loading a custom race from file (assets/races/titans.json).
    */
   @Test
-  public void testCreateCustomRace() {
-    RaceFactory.registerCustomRace("Vampire", 5, 3, 2);
-    Race race = RaceFactory.createRace("Vampire");
-    assertEquals("Vampire", race.getRaceName());
+  public void testLoadCustomRaceFromFile() {
+    Race race = RaceFactory.createRace("titans");
+    assertNotNull(race);
+    assertEquals("titans", race.getRaceName().toLowerCase());
+    assertTrue(race.getStrengthBonus() > 0);
+    assertTrue(race.getDexterityBonus() > 0);
+    assertTrue(race.getIntelligenceBonus() > 0);
   }
 }
- 

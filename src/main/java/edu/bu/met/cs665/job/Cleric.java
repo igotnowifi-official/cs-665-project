@@ -12,6 +12,14 @@ package edu.bu.met.cs665.job;
  * Represents the Cleric job class with healing abilities.
  */
 public class Cleric extends Job {
+
+  /**
+   * Type indicator for Gson deserialization.
+   * Required by RuntimeTypeAdapterFactory to identify subclass type.
+   */
+  @SuppressWarnings("unused")
+  private final String type = "cleric";
+
   /**
    * Constructor for Cleric.
    */

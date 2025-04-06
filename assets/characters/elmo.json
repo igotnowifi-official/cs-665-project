@@ -1,0 +1,23 @@
+{
+  "type": "default",
+  "name": "elmo",
+  "race": {
+    "type": "custom",
+    "raceName": "puppet",
+    "strengthBonus": 1,
+    "dexterityBonus": 1,
+    "intelligenceBonus": 3
+  },
+  "job": {
+    "type": "custom",
+    "ability": "captivating their audience and distract them from their surrounding",
+    "jobName": "entertainment",
+    "attackPower": 1,
+    "defense": 11
+  },
+  "stats": {
+    "strength": 20,
+    "dexterity": 19,
+    "intelligence": 27
+  }
+}

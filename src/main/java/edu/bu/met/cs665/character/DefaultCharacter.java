@@ -3,7 +3,8 @@
  * Course: CS-665 Software Designs & Patterns
  * Date: 03/08/2025
  * File Name: DefaultCharacter.java
- * Description: A concrete implementation of GameCharacter with default attributes.
+ * Description: A concrete implementation of GameCharacter used for character creation.
+ *              This class is saved as a JSON file under assets/characters/.
  */
 
 package edu.bu.met.cs665.character;
@@ -12,33 +13,28 @@ import edu.bu.met.cs665.job.Job;
 import edu.bu.met.cs665.race.Race;
  
 /**
- * Represents a concrete implementation of GameCharacter with default attributes.
+ * Represents a fully initialized game character with race, job, and stats.
  */
 public class DefaultCharacter extends GameCharacter {
+ 
   /**
-   * Constructor for DefaultCharacter with custom name, job, and race.
-   * @param name The character's name.
-   * @param job The character's job.
-   * @param race The character's race.
+   * Type indicator required for Gson polymorphic serialization.
+   */
+  @SuppressWarnings("unused")
+  private final String type = "default";
+ 
+  /**
+   * Constructs a DefaultCharacter with the given name, job, and race.
+   * @param name The name of the character.
+   * @param job The selected job class.
+   * @param race The selected race.
    */
   public DefaultCharacter(String name, Job job, Race race) {
-    super(name, job, race); 
+    super(name, job, race);
   }
  
   /**
-   * Constructor for DefaultCharacter with predefined name, job, and race.
-   */
-  public DefaultCharacter() {
-    super("Natasya", new Job("Goddess", 999, 999) {
-      @Override
-      public void specialAbility() {
-        System.out.println("Special Ability: Divine Judgment - Unleashes godly power.");
-      }
-    }, new Race("Titans", 100, 100, 100) {});
-  }
- 
-  /**
-   * Displays the character's details.
+   * Prints the full details of the character to the console.
    */
   @Override
   public void displayCharacter() {
@@ -51,4 +47,3 @@ public class DefaultCharacter extends GameCharacter {
     }
   }
 }
- 

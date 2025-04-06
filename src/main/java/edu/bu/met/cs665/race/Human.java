@@ -8,6 +8,14 @@ package edu.bu.met.cs665.race;
  * Description: Predefined Human race with balanced stats.
  */
 public class Human extends Race {
+
+  /**
+   * Type indicator for Gson deserialization.
+   * Required by RuntimeTypeAdapterFactory to identify subclass type.
+   */
+  @SuppressWarnings("unused")
+  private final String type = "human";
+
   /**
    * Constructor for Human.
    */

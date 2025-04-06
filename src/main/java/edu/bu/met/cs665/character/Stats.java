@@ -9,6 +9,8 @@
 package edu.bu.met.cs665.character;
 
 import edu.bu.met.cs665.dice.DiceStrategy;
+import edu.bu.met.cs665.job.Job;
+import edu.bu.met.cs665.race.Race;
 
 /**
 * Represents a character's stats including strength, dexterity, and intelligence.
@@ -38,15 +40,20 @@ public class Stats {
   }
 
   /**
-   * Increases stats by the specified bonuses.
-   * @param strengthBonus Bonus to strength.
-   * @param dexterityBonus Bonus to dexterity.
-   * @param intelligenceBonus Bonus to intelligence.
+   * Rolls base stats and applies job + race bonuses using separate dice.
+   * @param baseDice Dice used for core stat values (e.g., D20)
+   * @param bonusDice Dice used for race/job bonuses (e.g., D6)
+   * @param race The selected race
+   * @param job The selected job
    */
-  public void applyBonuses(int strengthBonus, int dexterityBonus, int intelligenceBonus) {
-    this.strength += strengthBonus;
-    this.dexterity += dexterityBonus;
-    this.intelligence += intelligenceBonus;
+  public void rollStatsWithBonuses(DiceStrategy baseDice, DiceStrategy bonusDice,
+        Race race, Job job) {
+    this.strength =
+        baseDice.roll() + bonusDice.roll() * (race.getStrengthBonus() + job.getAttackPower());
+    this.dexterity =
+        baseDice.roll() + bonusDice.roll() * (race.getDexterityBonus());
+    this.intelligence =
+        baseDice.roll() + bonusDice.roll() * (race.getIntelligenceBonus());
   }
 
   /**

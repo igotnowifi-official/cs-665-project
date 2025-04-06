@@ -12,6 +12,14 @@ package edu.bu.met.cs665.race;
  * Represents the Orc race with high strength but lower intelligence.
  */
 public class Orc extends Race {
+
+  /**
+   * Type indicator for Gson deserialization.
+   * Required by RuntimeTypeAdapterFactory to identify subclass type.
+   */
+  @SuppressWarnings("unused")
+  private final String type = "orc";
+
   /**
    * Constructor for Orc.
    */

@@ -1,0 +1,22 @@
+{
+  "type": "default",
+  "name": "hero",
+  "race": {
+    "type": "human",
+    "raceName": "Human",
+    "strengthBonus": 1,
+    "dexterityBonus": 1,
+    "intelligenceBonus": 1
+  },
+  "job": {
+    "type": "fighter",
+    "jobName": "Fighter",
+    "attackPower": 15,
+    "defense": 10
+  },
+  "stats": {
+    "strength": 33,
+    "dexterity": 15,
+    "intelligence": 22
+  }
+}

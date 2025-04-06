@@ -1,0 +1,24 @@
+{
+    "type": "default",
+    "name": "natasya",
+    "race": {
+      "type": "custom",
+      "raceName": "titans",
+      "strengthBonus": 999999,
+      "dexterityBonus": 999999,
+      "intelligenceBonus": 999999
+    },
+    "job": {
+      "type": "custom",
+      "jobName": "goddess",
+      "attackPower": 9999999,
+      "defense": 9999999,
+      "ability": "Divine Judgment"
+    },
+    "stats": {
+      "strength": 9999999,
+      "dexterity": 9999999,
+      "intelligence": 9999999
+    }
+  }
+  

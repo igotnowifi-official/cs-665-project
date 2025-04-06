@@ -8,6 +8,14 @@ package edu.bu.met.cs665.race;
  * Description: Predefined Elf race with dexterity bonuses.
  */
 public class Elf extends Race {
+
+  /**
+   * Type indicator for Gson deserialization.
+   * Required by RuntimeTypeAdapterFactory to identify subclass type.
+   */
+  @SuppressWarnings("unused")
+  private final String type = "elf";
+
   /**
    * Constructor for Elf.
    */

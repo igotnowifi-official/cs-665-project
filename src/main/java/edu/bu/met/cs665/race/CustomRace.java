@@ -12,6 +12,14 @@ package edu.bu.met.cs665.race;
  * Represents a user-defined custom race with stat bonuses.
  */
 public class CustomRace extends Race {
+
+  /**
+   * Type indicator for Gson deserialization.
+   * Required by RuntimeTypeAdapterFactory to identify subclass type.
+   */
+  @SuppressWarnings("unused")
+  private final String type = "custom";
+
   /**
    * Constructor for CustomRace.
    * @param name The custom race name.
